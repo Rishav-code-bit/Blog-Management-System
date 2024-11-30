@@ -41,11 +41,6 @@ const SignupButton = styled(Button)`
     box-shadow: 0 2px 4px 0 rgb(0 0 0/20%);
 `
 
-const text = styled(Typography)`
-    color: #878787;
-    font-size: 16px;
-`
-
  const Login = () => {
 
     const imageURL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSujfPXQY1nr8l61HzCh13MTSWOqC4HsdlKjA&s';
