@@ -50,6 +50,11 @@ const Error = styled(Typography)`
     font-weight: 600;
 `
 
+const loginInitialValues = {
+    username: '',
+    password: ''
+}
+
 const signupInitialValues = {
     name: '',
     username: '',
@@ -62,6 +67,7 @@ const signupInitialValues = {
 
     const [account, toggleAccount] = useState('login');
     const [signup, setSignup] = useState(signupInitialValues);
+    const [login, setLogin] = useState(loginInitialValues);
     const [error, setError] = useState('');
 
     const toggleSignup = () => {
@@ -83,6 +89,19 @@ const signupInitialValues = {
         }
     }
 
+    const onValueChange = (e) => {
+        setLogin({...login, [e.target.name]: e.target.value})
+    }
+
+    const loginUser = async () => {
+        let response = await API.UserLogin(login);
+        if(response.isSuccess){
+            setError('');
+        } else {
+            setError('Something went wrong');
+        }
+    }
+
     return (
         <Component>
             <Box>
@@ -90,12 +109,12 @@ const signupInitialValues = {
             {
                 account === 'login' ? 
                     <Wrapper>
-                        <TextField label="Enter username"/>
-                        <TextField label="Enter password"/>
+                        <TextField value={login.username} onChange={(e)=>onValueChange(e)}  name='username' label="Enter username"/>
+                        <TextField value={login.password} onChange={(e)=>onValueChange(e)}  name='password' label="Enter password"/>
 
                         {error && <Error>{error}</Error>}
                         
-                        <LoginButton variant="contained">Login</LoginButton>
+                        <LoginButton variant="contained" onClick={()=> loginUser()}>Login</LoginButton>
                         <Typography style={{ textAlign : 'center'}}>OR</Typography>
                         <SignupButton onClick={() => toggleSignup()}>Create an account</SignupButton>
                     </Wrapper>
@@ -105,7 +124,7 @@ const signupInitialValues = {
                         <TextField onChange={(e) => onInputChange(e)} name='username' label="Enter Username"/>
                         <TextField onChange={(e) => onInputChange(e)} name='password' label="Enter password"/>
                         {error && <Error>{error}</Error>}
-                        <SignupButton variant="contained" onClick={()=> signupUser}>Sign Up</SignupButton>
+                        <SignupButton variant="contained" onClick={()=> signupUser()}>Sign Up</SignupButton>
                         <Typography style={{ textAlign : 'center'}}>OR</Typography>
                         <LoginButton variant="contained" onClick={() => toggleSignup()}>Already have an account</LoginButton>
                     </Wrapper>
